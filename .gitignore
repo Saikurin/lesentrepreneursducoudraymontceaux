@@ -25,5 +25,4 @@
 ###< symfony/asset-mapper ###
 
 /.idea/**
-/assets
 public/*.log
