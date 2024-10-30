@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contactez{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12 col-lg-4 offset-lg-4">
+                <img src="{{ asset('images/logo.jpeg') }}" alt="Les entrepreneurs du Coudray Montceaux" class="img-fluid d-block mx-auto text-center" style="width:200px;height:200px;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Bulletin d'adhésion 2024</h1>
+                <h2 class="text-center">Les entrepreneurs du Coudray Montceaux</h2>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <p class="fw-bold text-center">Siège social : Mairie du Coudray Montceaux, 45 Avenue du Général de Gaulle, 91830</p>
+        </div>
+        <div class="row">
+            <p>Je sousigné(e)</p>
+
+            {% include 'partials/_form_adhesion.html.twig' with { 'form': form } %}
+        </div>
+    </div>
+{% endblock %}

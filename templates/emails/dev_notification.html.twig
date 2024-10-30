@@ -1,0 +1,7 @@
+<p>Une erreur est survenue</p>
+<p>Message d'erreur : {{ error.message }}</p>
+<p>Fichier : {{ error.file }} - Ligne {{ error.line }}</p>
+<p>Trace</p>
+{% for trace in error.trace %}
+    {{ dump(trace) }}
+{% endfor %}

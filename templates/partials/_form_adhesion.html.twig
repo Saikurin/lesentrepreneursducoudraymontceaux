@@ -1,0 +1,86 @@
+{# templates/adhesion_form.html.twig #}
+
+{{ form_start(form) }}
+
+<div class="form-group row mt-3">
+    <div class="col-12 col-md-3">
+        {{ form_label(form.nom_prenom, null, {'label_attr': {'class': 'col-form-label'}}) }}
+    </div>
+    <div class="col-12 col-md-8">
+        {{ form_widget(form.nom_prenom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="form-group row mt-3">
+    <div class="col-12 col-md-3">
+        {{ form_label(form.raison_social, null, {'label_attr': {'class': 'col-form-label'}}) }}
+    </div>
+    <div class="col-12 col-md-8">
+        {{ form_widget(form.raison_social, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="form-group row mt-3">
+    <div class="col-12 col-md-3">
+        {{ form_label(form.adresse, null, {'label_attr': {'class': 'col-form-label'}}) }}
+    </div>
+    <div class="col-12 col-md-8">
+        {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="form-group row mt-3">
+    <div class="col-12 col-md-3">
+        {{ form_label(form.profession, null, {'label_attr': {'class': 'col-form-label'}}) }}
+    </div>
+    <div class="col-12 col-md-8">
+        {{ form_widget(form.profession, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="form-group row mt-3">
+    <div class="col-12 col-md-3">
+        {{ form_label(form.contact, null, {'label_attr': {'class': 'col-form-label'}}) }}
+    </div>
+    <div class="col-12 col-md-8">
+        {{ form_widget(form.contact, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-11">
+        <p class="text-justify">Déclare souhaiter devenir membre de l'association <b>Les entrepreneurs du Coudray
+                Montceaux</b>, dont je reconnais expressément connaitre l'objet et accepter par la présente les status
+            et, s'il en existe, le réglement intérieur, dont j'ai parfaitement pris connaissance</p>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <p>J'accepte expressément de verser le montant de ma cotisation pour l'année en cours, à savoir un montant de
+            <b>80 euros</b></p>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-12 col-md-12">
+        {{ form_widget(form.accept_terms) }}
+        {{ form_label(form.accept_terms) }}
+        {{ form_errors(form.accept_terms) }}
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <p>Fait au Coudray Montceaux le {{ "now"|date('d/m/Y') }}</p>
+    </div>
+</div>
+
+<div class="form-group row mt-3">
+    <div class="col-12 col-md-6">
+        <input type="submit" class="btn btn-primary" value="Soumettre">
+        <a href="{{ path('app_home_temp') }}" class="btn btn-secondary">Retourner à la page d'accueil</a>
+    </div>
+</div>
+
+{{ form_end(form) }}
