@@ -38,7 +38,7 @@ class DemandeAdhesion
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column(enumType: EtatDemandeAdhesion::class)]
+    #[ORM\Column(type: 'string', enumType: EtatDemandeAdhesion::class)]
     private ?EtatDemandeAdhesion $etat = null;
 
     public function getId(): ?int

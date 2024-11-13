@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact', methods: ['POST', 'GET'])]
+    #[Route('/contact', name: 'app_demande_adhesion', methods: ['POST', 'GET'])]
     public function index(Request $request, EntityManagerInterface $manager, EmailNotificationService $notificationService): Response
     {
         $demande = new DemandeAdhesion();

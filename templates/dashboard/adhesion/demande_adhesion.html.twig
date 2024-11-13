@@ -1,0 +1,55 @@
+{% extends 'base_bo.html.twig' %}
+
+{% block body %}
+    <h1>Liste des demandes adhésions</h1>
+    <div class="row" {{ stimulus_controller('datatable',{
+        order: [[0, 'desc']],
+        id: 'datatable'
+    }) }}>
+        <div class="col-md-12 table-responsive"
+             data-controller="adhesion"
+             data-adhesion-url-value="{{ path('dashboard_autoriser_adherant') }}"
+             data-adhesion-method-value="POST"
+             data-adhesion-confirm-value="Voulez-vous vraiment valider cette demande ?"
+             data-adhesion-success-value="Demande validée avec succès"
+             data-adhesion-error-value="Erreur lors de la validation de la demande">
+            <table class="table" id="datatable">
+                <thead>
+                <tr>
+                    <th>Etat</th>
+                    <th>Nom</th>
+                    <th>Raison Social</th>
+                    <th>Adresse</th>
+                    <th>Profession</th>
+                    <th>Contact</th>
+                    <th>Déposé le</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for demande in demandes %}
+                    <tr>
+                        <td>{{ demande.etat }}</td>
+                        <td>{{ demande.nom }}</td>
+                        <td>{{ demande.raison }}</td>
+                        <td>{{ demande.adresse }}</td>
+                        <td>{{ demande.profession }}</td>
+                        <td>{{ demande.contact }}</td>
+                        <td>{{ demande.created_at }}</td>
+                        <td>
+                            <div>
+                                <button {{ stimulus_action('adhesion','validateAdhesion','click',{
+                                    id: demande.id,
+                                }) }} data-id="{{ demande.id }}" class="btn btn-outline-success btn-sm">Valider
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm">Refuser</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
