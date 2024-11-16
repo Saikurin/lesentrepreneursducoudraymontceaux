@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Enum\EtatDemandeAdhesion;
 use App\Repository\DemandeAdhesionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DemandeAdhesionRepository::class)]
 class DemandeAdhesion
@@ -33,6 +34,7 @@ class DemandeAdhesion
     private ?string $profession = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(message: 'Veuillez saisir une adresse email valide')]
     private ?string $contact = null;
 
     #[ORM\Column]

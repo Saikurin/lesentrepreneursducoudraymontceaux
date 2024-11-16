@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Exception\AccountStatusException;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +24,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private UserRepository $userRepository)
     {
     }
 
@@ -31,6 +33,14 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->getPayload()->getString('email');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
+
+        // Charger l'utilisateur depuis le UserRepository
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
+        if(!$user || $user->isNeedResetPassword()) {
+            throw new AccountStatusException('Votre compte est désactivé ou vous devez réinitialiser votre mot de passe.');
+        }
+
 
         return new Passport(
             new UserBadge($email),

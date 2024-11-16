@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 
 class AdhesionType extends AbstractType
 {
@@ -33,6 +34,9 @@ class AdhesionType extends AbstractType
             ->add('contact', TextType::class, [
                 'label' => 'Email',
                 'required' => true,
+                'constraints' => [
+                    new Email(['message' => 'Veuillez saisir une adresse email valide']),
+                ],
             ])
             ->add('accept_terms', CheckboxType::class, [
                 'label' => "J'accepte les CGU et le règlement intérieur",

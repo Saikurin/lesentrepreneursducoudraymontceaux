@@ -14,6 +14,9 @@ class UsersFixtures extends Fixture
         $user->setEmail('siklitheo@gmail.com');
         $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword(password_hash('siklitheo', PASSWORD_DEFAULT));
+        $user->setCreatedAt(new \DateTimeImmutable());
+        $user->setUpdatedAt(new \DateTimeImmutable());
+        $user->setNeedResetPassword(false);
         $manager->persist($user);
 
         $manager->flush();

@@ -3,9 +3,13 @@
 namespace App\Service;
 
 use App\Entity\DemandeAdhesion;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class EmailNotificationService
 {
@@ -20,6 +24,11 @@ class EmailNotificationService
         $this->twig = $twig;
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function sendAdminNotification(string $adminEmail, DemandeAdhesion $demande): void
     {
         $email = (new Email())
@@ -30,7 +39,11 @@ class EmailNotificationService
                 'demande' => $demande,
             ]));
 
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            throw new \Exception('Erreur lors de l\'envoi de l\'email');
+        }
     }
 
     public function sendUserConfirmation(string $userEmail, DemandeAdhesion $demande, string $trackingLink): void

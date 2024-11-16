@@ -32,12 +32,12 @@ class ContactController extends AbstractController
                 $notificationService->sendDevNotificationError($e);
             }
 
-            $this->addFlash('success','Votre demande a été soumise au bureau. Nous reviendrons vers vous très vide. De plus, vous venez de recevoir un mail contenant un lien afin de suivre l\'avancée de votre demande');
+            $this->addFlash('success','Votre demande a été soumise au bureau. Nous reviendrons vers vous très vite.');
             return $this->redirectToRoute('app_home_temp');
         }
 
         return $this->render('contact/index.html.twig', [
             'form' => $form->createView()
-        ]);
+        ], new Response(null, ($form->isSubmitted() && !$form->isValid()) ? 400 : 200));
     }
 }
