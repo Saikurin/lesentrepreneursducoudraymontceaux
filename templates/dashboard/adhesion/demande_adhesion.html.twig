@@ -8,10 +8,12 @@
     }) }}>
         <div class="col-md-12 table-responsive"
              data-controller="adhesion"
-             data-adhesion-url-value="{{ path('dashboard_autoriser_adherant') }}"
+             data-adhesion-url-value="{{ path('dashboard_gestion_adherant') }}"
              data-adhesion-method-value="POST"
              data-adhesion-confirm-value="Voulez-vous vraiment valider cette demande ?"
+             data-adhesion-refuse-value="Voulez-vous vraiment refuser cette demande ?"
              data-adhesion-success-value="Demande validée avec succès"
+             data-adhesion-refusesuccess-value="Demande refusée avec succès"
              data-adhesion-error-value="Erreur lors de la validation de la demande">
             <table class="table" id="datatable">
                 <thead>
@@ -40,9 +42,13 @@
                             <div>
                                 <button {{ stimulus_action('adhesion','validateAdhesion','click',{
                                     id: demande.id,
-                                }) }} data-id="{{ demande.id }}" class="btn btn-outline-success btn-sm">Valider
+                                }) }} data-id="{{ demande.id }}" data-type="accept"
+                                      class="btn btn-outline-success btn-sm">Valider
                                 </button>
-                                <button class="btn btn-outline-danger btn-sm">Refuser</button>
+                                <button {{ stimulus_action('adhesion','refuseAdhesion','click', {
+                                    id: demande.id,
+                                }) }} data-type="refuse" data-id="{{ demande.id }}" class="btn btn-outline-danger btn-sm">Refuser
+                                </button>
                             </div>
                         </td>
                     </tr>

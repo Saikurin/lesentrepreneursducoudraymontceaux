@@ -57,7 +57,11 @@ class EmailNotificationService
                 'trackingLink' => $trackingLink,
             ]));
 
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            var_dump($e);
+        }
     }
 
     public function sendDevNotificationError(\Exception $e)

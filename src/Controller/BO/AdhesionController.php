@@ -11,9 +11,10 @@ use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -37,12 +38,12 @@ class AdhesionController extends AbstractController
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    #[Route('/autoriser_adherant', name: 'dashboard_autoriser_adherant', methods: ['POST', 'GET'])]
-    public function autoriser_adhesion(
+    #[Route('/gestion_adherant', name: 'dashboard_gestion_adherant', methods: ['POST', 'GET'])]
+    public function gestion_adherant(
         EntityManagerInterface $manager,
         Request $request,
         DemandeAdhesionRepository $demandeAdhesionRepository,
-        PasswordHasherInterface $hasher,
+        UserPasswordHasherInterface $hasher,
         PasswordService $passwordService
 
     ): Response
@@ -59,19 +60,26 @@ class AdhesionController extends AbstractController
             return new Response("Demande introuvable", 404); // Si la demande n'existe pas
         }
 
+        switch ($request->request->get('type')) {
+            case 'refuse':
+                $demande->setEtat(EtatDemandeAdhesion::REFUSE);
+                break;
+            case 'accept':
+                $demande->setEtat(EtatDemandeAdhesion::VALIDE);
+
+                $password = $passwordService->generatePassword();
+
+                $user = new User();
+
+                $user->setEmail($demande->getContact());
+                $user->setRoles(['ROLE_USER']);
+                $user->setPassword($hasher->hashPassword($user, $password));
+
+                $manager->persist($user);
+                break;
+        }
         // Mettre à jour l'état de la demande
-        $demande->setEtat(EtatDemandeAdhesion::VALIDE);
         $manager->flush();
-
-        $password = $passwordService->generatePassword();
-
-        $user = new User();
-
-        $user->setEmail($demande->getEmail());
-        $user->setRoles(['ROLE_USER']);
-        $user->setPassword($hasher->hash($password));
-
-        $manager->persist($user);
 
         // Retourner uniquement le fragment du tableau à mettre à jour
         return $this->render('dashboard/adhesion/_partial_table.html.twig', [
