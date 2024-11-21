@@ -25,14 +25,4 @@ class DashboardController extends AbstractController
     {
         return $this->render('dashboard/dashboard.html.twig');
     }
-
-    public function getNavbar(EntityManagerInterface $manager): Response
-    {
-        $counter = $manager->getConnection()->executeQuery("select count(id) as nb_demande_adhesion
-from demande_adhesion
-where etat = 'En attente'")->fetchAssociative();
-        return $this->render('dashboard/navbar.html.twig', [
-            'counter' => $counter,
-        ]);
-    }
 }

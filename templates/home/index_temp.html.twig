@@ -57,10 +57,7 @@
                 </div>
                 <div class="col-sm-3 col-md-4">
                     <h5>Nos évènements</h5>
-                    <ul>
-                        <li><a href="#">Évènement 1</a></li>
-                        <li><a href="#">Évènement 2</a></li>
-                    </ul>
+                    {{ render(controller('App\\Controller\\PartialsController::getEvents')) }}
                 </div>
                 <div class="col-sm-3 col-md-2">
                     <h5>Legal</h5>

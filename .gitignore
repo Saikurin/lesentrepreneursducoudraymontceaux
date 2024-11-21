@@ -26,3 +26,5 @@
 
 /.idea/**
 public/*.log
+
+/.htaccess

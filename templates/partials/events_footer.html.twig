@@ -1,0 +1,9 @@
+<ul>
+{% if events|length > 0 %}
+{% for event in events %}
+    <li><a href="">{{ event.name }}</a></li>
+{% endfor %}
+{% else %}
+    <li style="color:#d2d1d1">Aucun évènement</li>
+{% endif %}
+</ul>
