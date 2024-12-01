@@ -5,15 +5,14 @@ namespace App\Controller\BO;
 use App\Entity\User;
 use App\Enum\EtatDemandeAdhesion;
 use App\Repository\DemandeAdhesionRepository;
+use App\Service\EmailNotificationService;
 use App\Service\PasswordService;
 use Doctrine\ORM\EntityManagerInterface;
 use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -40,11 +39,12 @@ class AdhesionController extends AbstractController
      */
     #[Route('/gestion_adherant', name: 'dashboard_gestion_adherant', methods: ['POST', 'GET'])]
     public function gestion_adherant(
-        EntityManagerInterface $manager,
-        Request $request,
-        DemandeAdhesionRepository $demandeAdhesionRepository,
+        EntityManagerInterface      $manager,
+        Request                     $request,
+        DemandeAdhesionRepository   $demandeAdhesionRepository,
         UserPasswordHasherInterface $hasher,
-        PasswordService $passwordService
+        PasswordService             $passwordService,
+        EmailNotificationService    $emailNotificationService
 
     ): Response
     {
@@ -74,6 +74,10 @@ class AdhesionController extends AbstractController
                 $user->setEmail($demande->getContact());
                 $user->setRoles(['ROLE_USER']);
                 $user->setPassword($hasher->hashPassword($user, $password));
+                $emailNotificationService->sendUserMail($user->getEmail(), 'Confirmation de votre demande d\'adhésion', [
+                    'nom' => $demande->getNomPrenom(),
+                    'password' => $password
+                ]);
 
                 $manager->persist($user);
                 break;

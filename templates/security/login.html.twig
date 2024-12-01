@@ -16,6 +16,11 @@
                                 <img src="{{ asset('images/logo.jpeg') }}" alt="Les entrepreneurs du coudray montceaux" class="img-thumbnail">
                             </div>
                             <div class="col-lg-6">
+                                {% if error is defined and error %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ error.messageKey|trans({}, 'security') }}
+                                    </div>
+                                {% endif %}
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Espace d'administration</h1>
@@ -49,7 +54,6 @@
                                     </form>
                                     <div class="text-center">
                                         <!--
-
                                             <a class="small" href="forgot-password.html">Mot de passe oublié ?</a>
                                          -->
                                     </div>

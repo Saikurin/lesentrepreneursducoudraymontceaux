@@ -32,7 +32,7 @@ class EmailNotificationService
     public function sendAdminNotification(string $adminEmail, DemandeAdhesion $demande): void
     {
         $email = (new Email())
-            ->from('no_reply@lesentrepreneursudcoudraymontceaux.fr')
+            ->from('no-reply@lesentrepreneursducoudraymontceaux.fr')
             ->to($adminEmail)
             ->subject('Nouvelle demande d\'adhésion')
             ->html($this->twig->render('emails/admin_notification.html.twig', [
@@ -49,7 +49,7 @@ class EmailNotificationService
     public function sendUserConfirmation(string $userEmail, DemandeAdhesion $demande, string $trackingLink): void
     {
         $email = (new Email())
-            ->from('no_reply@lesentrepreneursudcoudraymontceaux.fr')
+            ->from('no-reply@lesentrepreneursducoudraymontceaux.fr')
             ->to($userEmail)
             ->subject('Confirmation de votre demande d\'adhésion')
             ->html($this->twig->render('emails/user_confirmation.html.twig', [
@@ -68,13 +68,23 @@ class EmailNotificationService
     {
 
         $email = (new Email())
-            ->from('no_reply@lesentrepreneursudcoudraymontceaux.fr')
-            ->to('siklitheo@gmail.com')
+            ->from('no-reply@lesentrepreneursducoudraymontceaux.fr')
+            ->to('siklitheodev@gmail.com')
             ->subject('Erreur LEDCM')
             ->html($this->twig->render('emails/dev_notification.html.twig', [
                 'error' => $e,
             ]));
 
+        $this->mailer->send($email);
+    }
+
+    public function sendUserMail(string $userEmail, string $subject, array $context): void
+    {
+        $email = (new Email())
+            ->from('no-reply@lesentrepreneursducoudraymontceaux.fr')
+            ->to($userEmail)
+            ->subject($subject)
+            ->html($this->twig->render('emails/user_mail.html.twig', $context));
         $this->mailer->send($email);
     }
 

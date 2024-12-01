@@ -37,8 +37,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         // Charger l'utilisateur depuis le UserRepository
         $user = $this->userRepository->findOneBy(['email' => $email]);
 
-        if(!$user || $user->isNeedResetPassword()) {
-            throw new AccountStatusException('Votre compte est désactivé ou vous devez réinitialiser votre mot de passe.');
+        if(!$user) {
+            throw new AccountStatusException('Identifiants incorrect');
         }
 
 

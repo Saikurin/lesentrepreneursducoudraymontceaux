@@ -26,9 +26,12 @@
 </div>
 
 <li class="nav-item">
-    <a class="nav-link" href="{{ path('dashboard.demande_adhesion') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        Demandes
-        <span class="text-danger">({{ counter.nb_demande_adhesion }})</span>
-    </a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="nav-link" href="{{ path('dashboard.demande_adhesion') }}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            Demandes
+            <span class="text-danger">({{ counter.nb_demande_adhesion }})</span>
+        </a>
+    {% endif %}
+
 </li>
